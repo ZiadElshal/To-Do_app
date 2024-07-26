@@ -3,9 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_colors.dart';
+import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:todo_app/task.dart';
 
 class AddTaskBottomsheet extends StatefulWidget {
   @override
@@ -15,6 +17,8 @@ class AddTaskBottomsheet extends StatefulWidget {
 class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
   var formKey = GlobalKey<FormState>();
   var selectedDate = DateTime.now();
+  String title = "";
+  String description = "";
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +62,10 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
                         }
                         return null; ///valid
                       },
+
+                    onChanged: (text){
+                      title = text;
+                    },
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.task_title,
                         hintStyle: Theme.of(context).textTheme.labelMedium,
@@ -79,6 +87,9 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
                           return AppLocalizations.of(context)!.task_details_warning; ///invalid: user not enter text
                         }
                         return null; ///valid
+                      },
+                      onChanged: (text){
+                        description = text;
                       },
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.task_details,
@@ -164,6 +175,16 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
   void addTask() {
     if(formKey.currentState?.validate() == true){
       ///add task
+      Task task = Task(
+          title: title,
+          description: description,
+          dateTime: selectedDate,
+      );
+      FirebaseUtils.addTaskToFireStore(task).timeout(Duration(seconds: 1),
+      onTimeout: (){
+        print("Task added Successfully");
+        Navigator.pop(context);
+      });
     }
   }
 

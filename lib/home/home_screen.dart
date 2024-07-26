@@ -35,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ),
       ),
-      body: Expanded(child: tabs[selectedIndex]),
+      body: tabs[selectedIndex],
+      //Expanded(child: tabs[selectedIndex]),
       // Column(
       //   children: [
       //     Container(
