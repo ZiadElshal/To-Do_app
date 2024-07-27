@@ -14,5 +14,6 @@
   "theme": "Theme",
   "light": "Light",
   "dark": "Dark",
-  "systemDefault": "System Default"
+  "systemDefault": "System Default",
+  "save_changes": "Save changes"
 }

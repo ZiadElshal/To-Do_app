@@ -54,20 +54,6 @@ class _LanguageBottomSheetState extends State<ThemeBottomSheet> {
                     ? getSelectedItemWidget(AppLocalizations.of(context)!.dark)
                     : getUnSelectedItemWidget(AppLocalizations.of(context)!.dark)
             ),
-            SizedBox(
-              height: 15,
-            ),
-            InkWell(
-                onTap: () {
-                  ///change theme to system
-                  provider.changeTheme(ThemeMode.system);
-                },
-
-                ///select system
-                child: provider.appTheme == ThemeMode.system
-                    ? getSelectedItemWidget(AppLocalizations.of(context)!.systemDefault)
-                    : getUnSelectedItemWidget(
-                    AppLocalizations.of(context)!.systemDefault)),
           ],
         ),
       ),

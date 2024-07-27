@@ -14,5 +14,6 @@
   "theme": "النمط",
   "light": "مضيء",
   "dark": "مظلم",
-  "systemDefault": "النظام الافتراضي"
+  "systemDefault": "النظام الافتراضي",
+  "save_changes": "حفظ التغيرات"
 }

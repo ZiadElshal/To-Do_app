@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/home/home_screen.dart';
 import 'package:todo_app/my_theme_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,12 +11,18 @@ import 'firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  final String? savedLanguage = sharedPreferences.getString("appLanguage");
+  final bool? theme = sharedPreferences.getBool("appTheme");
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseFirestore.instance.disableNetwork();
   runApp(ChangeNotifierProvider(
-      create: (context) => AppConfigProvider(),
+      create: (context) => AppConfigProvider(
+          appLanguage: savedLanguage ?? "en", mode: theme ?? false
+      ),
       child: MyApp()
   )
   );

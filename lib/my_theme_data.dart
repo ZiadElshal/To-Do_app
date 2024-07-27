@@ -117,9 +117,4 @@ class MyThemeData{
       )
   );
 
-  ///systemDefault
-  // static ThemeData getSystemMode(BuildContext context) {
-  //   final platformBrightness = MediaQuery.platformBrightnessOf(context);
-  //   return platformBrightness == Brightness.light ? lightTheme : darkTheme;
-  // }
 }
