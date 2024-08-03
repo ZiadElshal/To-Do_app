@@ -13,5 +13,8 @@ class AppColors {
   static const Color redColor = Color(0xffEC4B4B);
   static const Color grayColor = Color(0xffb7b7bb);
   static const Color hintTextColor = Color(0xffb7b6b6);
+  static const Color labelTextColor = Color(0xff797979);
+  static const Color authPrimaryColor = Color(0xff3598DB);
+  static const Color textButtonLightColor = Color(0xff505050);
 
 }

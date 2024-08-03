@@ -29,7 +29,7 @@ class MyThemeData{
       ),
       ///head of bottom sheet
       titleMedium: GoogleFonts.poppins(
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
           color: AppColors.blackColor
       ),
@@ -45,16 +45,28 @@ class MyThemeData{
           fontWeight: FontWeight.w400,
           color: AppColors.blackColor
       ),
-      ///time in task list
+      ///description in task list
       displaySmall: GoogleFonts.roboto(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
           color: AppColors.blackColor
       ),
       ///language and theme
       headlineMedium: GoogleFonts.inter(
           fontSize: 22,
           fontWeight: FontWeight.bold,
+          color: AppColors.blackColor
+      ),
+      // ///slide delete and edit
+      // displayMedium: GoogleFonts.inter(
+      //     fontSize: 14,
+      //     fontWeight: FontWeight.w500,
+      //     color: AppColors.whiteColor
+      // ),
+      ///text button
+      titleSmall: GoogleFonts.poppins(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
           color: AppColors.blackColor
       ),
     )
@@ -86,7 +98,7 @@ class MyThemeData{
         ),
         ///head of bottom sheet
         titleMedium: GoogleFonts.poppins(
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: AppColors.whiteColor
         ),
@@ -102,16 +114,22 @@ class MyThemeData{
             fontWeight: FontWeight.w400,
             color: AppColors.whiteColor
         ),
-        ///time in task list
+        ///description in task list
         displaySmall: GoogleFonts.roboto(
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
             color: AppColors.whiteColor
         ),
         ///language and theme
         headlineMedium: GoogleFonts.inter(
             fontSize: 22,
             fontWeight: FontWeight.bold,
+            color: AppColors.whiteColor
+        ),
+        ///text button
+         titleSmall: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
             color: AppColors.whiteColor
         ),
       )

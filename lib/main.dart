@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/authentication/login/login_screen.dart';
+import 'package:todo_app/authentication/register/register_screen.dart';
 import 'package:todo_app/home/home_screen.dart';
 import 'package:todo_app/my_theme_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:todo_app/providers/list_provider.dart';
+import 'package:todo_app/task_list/edit_task_screen.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -19,10 +23,16 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseFirestore.instance.disableNetwork();
-  runApp(ChangeNotifierProvider(
-      create: (context) => AppConfigProvider(
-          appLanguage: savedLanguage ?? "en", mode: theme ?? false
-      ),
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AppConfigProvider(
+            appLanguage: savedLanguage ?? "en", mode: theme ?? false),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ListProvider(),
+        ),
+      ],
       child: MyApp()
   )
   );
@@ -36,9 +46,12 @@ class MyApp extends StatelessWidget {
     var provider = Provider.of<AppConfigProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       routes: {
         HomeScreen.routeName : (context) => HomeScreen(),
+        EditTaskScreen.routeName : (context) => EditTaskScreen(),
+        RegisterScreen.routeName : (context) => RegisterScreen(),
+        LoginScreen.routeName : (context) => LoginScreen(),
       },
       locale: Locale(provider.appLanguage),
       localizationsDelegates: AppLocalizations.localizationsDelegates,

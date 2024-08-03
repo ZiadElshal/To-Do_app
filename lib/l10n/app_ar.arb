@@ -15,5 +15,6 @@
   "light": "مضيء",
   "dark": "مظلم",
   "systemDefault": "النظام الافتراضي",
-  "save_changes": "حفظ التغيرات"
+  "save_changes": "حفظ التغيرات",
+  "edit_task": "تعديل المهمة"
 }

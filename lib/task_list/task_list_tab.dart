@@ -1,15 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_colors.dart';
+import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
+import 'package:todo_app/providers/list_provider.dart';
+import 'package:todo_app/task.dart';
 import 'package:todo_app/task_list/task_list_item.dart';
 
-class TaskListTab extends StatelessWidget {
+class TaskListTab extends StatefulWidget {
+  @override
+  State<TaskListTab> createState() => _TaskListTabState();
+}
 
-
+class _TaskListTabState extends State<TaskListTab> {
   @override
   Widget build(BuildContext context) {
+    ///in case if used provider with .get() instead of Stream<> .snapshot()
+    var listProvider = Provider.of<ListProvider>(context);
+
+    if(listProvider.tasksList.isEmpty){
+    listProvider.getAllTasksFromFireStore();
+    }
     var provider = Provider.of<AppConfigProvider>(context);
     return Stack(
       children: [
@@ -33,9 +46,11 @@ class TaskListTab extends StatelessWidget {
               child: Column(
                 children: [
                   EasyDateTimeLine(
-                    initialDate: DateTime.now(),
+                    initialDate: listProvider.selectDate,
+                    //DateTime.now(),
                     onDateChange: (selectedDate) {
-                      //`selectedDate` the new date selected.
+                      ///`selectedDate` the new date selected.
+                      listProvider.changeSelectDate(selectedDate);
                     },
                     locale: provider.appLanguage,
                     headerProps: EasyHeaderProps(
@@ -69,9 +84,9 @@ class TaskListTab extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                   itemBuilder: (context, index){
-                    return TaskListItem();
+                    return TaskListItem(task: listProvider.tasksList[index]);
                   },
-                itemCount: 30,
+                itemCount: listProvider.tasksList.length,
               ),
             ),
           ],

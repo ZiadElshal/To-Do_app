@@ -25,6 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ? AppColors.backGroundLightColor
           : AppColors.backGroundDarkColor,
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppColors.whiteColor
+        ),
         toolbarHeight: MediaQuery.of(context).size.height*0.1,
 
         title: Text(AppLocalizations.of(context)!.app_title,

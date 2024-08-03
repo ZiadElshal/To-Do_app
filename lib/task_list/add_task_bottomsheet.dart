@@ -7,6 +7,7 @@ import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:todo_app/providers/list_provider.dart';
 import 'package:todo_app/task.dart';
 
 class AddTaskBottomsheet extends StatefulWidget {
@@ -20,8 +21,12 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
   String title = "";
   String description = "";
 
+  ///in case if used provider
+  //late ListProvider listProvider; //to make it global and use it out of build widget
+
   @override
   Widget build(BuildContext context) {
+    //listProvider = Provider.of<ListProvider>(context);
     var provider = Provider.of<AppConfigProvider>(context);
     return Container(
       width: double.infinity,
@@ -38,135 +43,137 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
       ),
       child: Padding(
         padding: EdgeInsets.all(18),
-        child: Column(
-          children: [
-            Text(AppLocalizations.of(context)!.add_new_task,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: provider.appTheme == ThemeMode.light
-                  ? AppColors.blackColor
-                  : AppColors.whiteColor,
-            ),
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(AppLocalizations.of(context)!.add_new_task,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: provider.appTheme == ThemeMode.light
+                    ? AppColors.blackColor
+                    : AppColors.whiteColor,
+              ),
+              ),
 
-            SizedBox(height: MediaQuery.of(context).size.height*0.02),
+              SizedBox(height: MediaQuery.of(context).size.height*0.02),
 
-            Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextFormField(
-                    validator: (text){
-                      if(text == null || text.isEmpty){
-                        return AppLocalizations.of(context)!.task_title_warning; ///invalid: user not enter text
-                        }
-                        return null; ///valid
-                      },
-
-                    onChanged: (text){
-                      title = text;
-                    },
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.task_title,
-                        hintStyle: Theme.of(context).textTheme.labelMedium,
-                        // enabledBorder: UnderlineInputBorder(
-                        //   borderSide: BorderSide(
-                        //     color: provider.appTheme == ThemeMode.light
-                        //         ? AppColors.hintTextColor
-                        //         : AppColors.hintTextColor,
-                        //   )
-                        // )
-                      ),
-                    ),
-
-                    SizedBox(height: MediaQuery.of(context).size.height*0.011),
-
+              Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
                     TextFormField(
                       validator: (text){
                         if(text == null || text.isEmpty){
-                          return AppLocalizations.of(context)!.task_details_warning; ///invalid: user not enter text
-                        }
-                        return null; ///valid
-                      },
+                          return AppLocalizations.of(context)!.task_title_warning; ///invalid: user not enter text
+                          }
+                          return null; ///valid
+                        },
+
                       onChanged: (text){
-                        description = text;
+                        title = text;
                       },
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.task_details,
-                        hintStyle: Theme.of(context).textTheme.labelMedium,
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.task_title,
+                          hintStyle: Theme.of(context).textTheme.labelMedium,
                           // enabledBorder: UnderlineInputBorder(
-                          //     borderSide: BorderSide(
-                          //       color: provider.appTheme == ThemeMode.light
-                          //           ? AppColors.hintTextColor
-                          //           : AppColors.hintTextColor,
-                          //     )
+                          //   borderSide: BorderSide(
+                          //     color: provider.appTheme == ThemeMode.light
+                          //         ? AppColors.hintTextColor
+                          //         : AppColors.hintTextColor,
+                          //   )
                           // )
-                      ),
-                      maxLines: 4,
-                    ),
-
-                    SizedBox(height: MediaQuery.of(context).size.height*0.03),
-
-                    Text(AppLocalizations.of(context)!.select_date,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: provider.appTheme == ThemeMode.light
-                          ? AppColors.blackColor
-                          : AppColors.whiteColor,
-                    ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height*0.02,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.calendar_month_outlined,
-                          size: 30,
-                          color: provider.appTheme == ThemeMode.light
-                              ? AppColors.primaryColor
-                              : AppColors.whiteColor,
                         ),
-                        InkWell(
-                          onTap: (){
-                            showCalendar();
-                          },
-                                      ///format date
-                          child: Text(
-                            provider.appLanguage == "en"
-                                ?DateFormat.yMd().format(selectedDate):
-                            DateFormat('yMd', 'ar').format(selectedDate),
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      ),
+
+                      SizedBox(height: MediaQuery.of(context).size.height*0.011),
+
+                      TextFormField(
+                        validator: (text){
+                          if(text == null || text.isEmpty){
+                            return AppLocalizations.of(context)!.task_details_warning; ///invalid: user not enter text
+                          }
+                          return null; ///valid
+                        },
+                        onChanged: (text){
+                          description = text;
+                        },
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.task_details,
+                          hintStyle: Theme.of(context).textTheme.labelMedium,
+                            // enabledBorder: UnderlineInputBorder(
+                            //     borderSide: BorderSide(
+                            //       color: provider.appTheme == ThemeMode.light
+                            //           ? AppColors.hintTextColor
+                            //           : AppColors.hintTextColor,
+                            //     )
+                            // )
+                        ),
+                        maxLines: 4,
+                      ),
+
+                      SizedBox(height: MediaQuery.of(context).size.height*0.03),
+
+                      Text(AppLocalizations.of(context)!.select_date,
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: provider.appTheme == ThemeMode.light
+                            ? AppColors.blackColor
+                            : AppColors.whiteColor,
+                      ),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height*0.02,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.calendar_month_outlined,
+                            size: 30,
                             color: provider.appTheme == ThemeMode.light
-                                ? AppColors.blackColor
+                                ? AppColors.primaryColor
                                 : AppColors.whiteColor,
                           ),
-                            // textAlign: TextAlign.center,
+                          InkWell(
+                            onTap: (){
+                              showCalendar();
+                            },
+                                        ///format date
+                            child: Text(
+                              provider.appLanguage == "en"
+                                  ?DateFormat.yMd().format(selectedDate):
+                              DateFormat('yMd', 'ar').format(selectedDate),
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: provider.appTheme == ThemeMode.light
+                                  ? AppColors.blackColor
+                                  : AppColors.whiteColor,
+                            ),
+                              // textAlign: TextAlign.center,
+                            ),
                           ),
+                        ],
+                      ),
+
+                      SizedBox(height: MediaQuery.of(context).size.height*0.03),
+
+                      FloatingActionButton(
+                        backgroundColor: AppColors.primaryColor,
+                        onPressed: (){
+                          addTask();
+                        },
+                        child: Icon(Icons.check,
+                          color: AppColors.whiteColor,
+                          size: 35,
                         ),
-                      ],
-                    ),
-
-                    SizedBox(height: MediaQuery.of(context).size.height*0.03),
-
-                    FloatingActionButton(
-                      backgroundColor: AppColors.primaryColor,
-                      onPressed: (){
-                        addTask();
-                      },
-                      child: Icon(Icons.check,
-                        color: AppColors.whiteColor,
-                        size: 35,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(
+                              color: AppColors.whiteColor,
+                              width: 3,
+                            )
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
-                            color: AppColors.whiteColor,
-                            width: 3,
-                          )
-                      ),
-                    ),
-                  ],
-                ),
-            ),
-          ],
+                    ],
+                  ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -183,6 +190,8 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
       FirebaseUtils.addTaskToFireStore(task).timeout(Duration(seconds: 1),
       onTimeout: (){
         print("Task added Successfully");
+        ///in case if used provider
+        //listProvider.getAllTasksFromFireStore();
         Navigator.pop(context);
       });
     }
